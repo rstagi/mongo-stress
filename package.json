@@ -1,0 +1,21 @@
+{
+  "name": "mongo-stress",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "generate": "node generate.js",
+    "normal": "node normal.js",
+    "aggregations": "node aggregations.js",
+    "test": "node test.js",
+    "clean": "node clean.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fastify/mongodb": "^6.1.0",
+    "fastify": "^4.6.0",
+    "ramda": "^0.28.0"
+  }
+}
