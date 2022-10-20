@@ -64,37 +64,51 @@ function opsInBatch() {
 
 // Test MongoDB Cluster: Mongo Atlas M10 - AWS
 
-// Run 10000 ops
-// Mismatches:
-//    18 31 29 25 28
-//
-// NORMAL:
-//    Times: 21s 22s 24.5s 25s 26s
-//    commands: 825/s
-//    write iops: 90/s
-//    max disk util: 50%
-//    CPU: 62%
-//
-// AGGREGATION:
-//    Times: 19s 21.5s 23s 24s 24.5s
-//    commands: 921/s
-//    write iops: 57/s
-//    max disk util: 50%
-//    CPU: 35%
+// Run 200000 ops -> actual run under 2 minutes, so not so reliable
+// 
+// NORMAL: (23:38 - 23:44)
+//    command: npm run test --op-type=NORMAL --file-name-prefix=1 --log-interval=5000  --ops-in-batch=10000
+//    time: 23,27s user 5,77s system 31% cpu 1:31,40 total
+//    output: Errors: 0, Mismatches: 33, Updates: 142121, Inserts: 57846
+//    mongo stats:
+//      commands: 2.63K/s
+//      write ops: 222/s
+//      Max Disk util: 77%
+//      CPU: 105%
+//    
+// AGGREGATION: (23:45 - 23:50)
+//    command: npm run test --op-type=AGGREGATION --file-name-prefix=1 --log-interval=5000
+//    time: 23,49s user 5,61s system 32% cpu 1:29,89 total
+//    output: Errors: 0, Mismatches: 33, Updates: 142121, Inserts: 57846
+//    mongo stats:
+//      commands: 2.5K/s
+//      write ops: 180/s
+//      Max Disk util: 66.4%
+//      CPU: 80%
 //
 
+
 // Run 500000 ops
-// Mismatches:
+// 
+// NORMAL: (23:52 - 23:58)
+//    command: npm run test --op-type=NORMAL --file-name-prefix=2 --log-interval=5000  --ops-in-batch=10000
+//    time: 61,79s user 15,23s system 30% cpu 4:08,87 total
+//    output: Errors: 0, Mismatches: 56, Updates: 400639, Inserts: 99305
+//    mongo stats:
+//      commands: 2.63K/s
+//      write ops: 236/s
+//      Max Disk util: 70%
+//      CPU: 108%
 //    
-//
-// NORMAL: (21:12 - 21:40)
-//    Times: ~20m
-//    commands: 2.67K
-//    write iops: 218/s
-//    max disk util: 59%
-//    CPU: 147%
-//
-// AGGREGATION: n.d.
+// AGGREGATION: (23:59 - 23:20) -> to be repeated
+//    command: npm run test --op-type=AGGREGATION --file-name-prefix=2 --log-interval=5000
+//    time: 115,65s user 26,75s system 13% cpu 17:24,81 total
+//    output: Errors: 0, Mismatches: 68, Updates: 400627, Inserts: 99305
+//    mongo stats:
+//      commands: 2.63K/s
+//      write ops: 237/s
+//      Max Disk util: 77%
+//      CPU: 107%
 //
 
 module.exports = {
