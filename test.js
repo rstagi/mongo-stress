@@ -16,7 +16,6 @@ async function main() {
   const { mongo, collection } = await initCollection()
   const operations = require(operationsFileName())
   const expectedDocs = require(expectedDocsFileName())
-  const getOp = opType() === OP_TYPES.AGGREGATION ? aggregationOp : normalOp
   const N_OPS_IN_BATCH = opsInBatch()
   
   const errors = []
@@ -25,7 +24,7 @@ async function main() {
   const loggingInterval = setInterval(log, logInterval())
   while (operations.length > 0) {
     const proms = operations.splice(0, N_OPS_IN_BATCH).map(async ({ pk, obj }) => {
-      const op = getOp(pk, obj)
+      const op = opType() === OP_TYPES.AGGREGATION ? aggregationOp(pk, obj) : normalOp(pk, obj)
       try {
         const result = await collection.findOneAndUpdate(op.filter, op.updateStatement, { upsert: true })
         if (result.value) {
